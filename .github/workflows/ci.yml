@@ -13,5 +13,4 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v5.0.8 # use the explicit version number
         with:
-          build: npm run build
-          start: npm start
+          build: npm run cy:dashboard
