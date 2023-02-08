@@ -1,26 +1,55 @@
 const url = 'https://webdriveruniversity.com/Dropdown-Checkboxes-RadioButtons/index.html'
-//Do poprawy/skrócenia
 describe('Dropdown Menu(s)', () => {
     it('Fist dropdown', () => {
         cy.visit(url)
-        cy.contains('.thumbnail', 'Dropdown Menu(s)').find('#dropdowm-menu-1').select('JAVA').should('have.value', 'java')
-        cy.contains('.thumbnail', 'Dropdown Menu(s)').find('#dropdowm-menu-1').select('C#').should('have.value', 'c#')
-        cy.contains('.thumbnail', 'Dropdown Menu(s)').find('#dropdowm-menu-1').select('Python').should('have.value', 'python')
-        cy.contains('.thumbnail', 'Dropdown Menu(s)').find('#dropdowm-menu-1').select('SQL').should('have.value', 'sql')
+        cy.contains('.thumbnail', 'Dropdown Menu(s)').find('#dropdowm-menu-1').find('option').each(dropdownItem => {
+            const itemName = dropdownItem.text()
+            const itemValue = {
+                "JAVA": "java",
+                "C#": "c#",
+                "Python": "python",
+                "SQL": "sql"
+            }
+
+            cy.contains('.thumbnail', 'Dropdown Menu(s)').find('#dropdowm-menu-1').select(itemName)
+            cy.wrap(dropdownItem).invoke('prop', 'selected').should('equal', true)
+            cy.wrap(dropdownItem).should('contain', itemName)
+            cy.wrap(dropdownItem).invoke('prop', 'value').should('contain', itemValue[itemName])
+        })
     })
     it('Second dropdown', () => {
         cy.visit(url)
-        cy.contains('.thumbnail', 'Dropdown Menu(s)').find('#dropdowm-menu-2').select('Eclipse').should('have.value', 'eclipse')
-        cy.contains('.thumbnail', 'Dropdown Menu(s)').find('#dropdowm-menu-2').select('Maven').should('have.value', 'maven')
-        cy.contains('.thumbnail', 'Dropdown Menu(s)').find('#dropdowm-menu-2').select('TestNG').should('have.value', 'testng')
-        cy.contains('.thumbnail', 'Dropdown Menu(s)').find('#dropdowm-menu-2').select('JUnit').should('have.value', 'junit')
+        cy.contains('.thumbnail', 'Dropdown Menu(s)').find('#dropdowm-menu-2').find('option').each(dropdownItem => {
+            const itemName = dropdownItem.text()
+            const itemValue = {
+                "Eclipse": "eclipse",
+                "Maven": "maven",
+                "TestNG": "testng",
+                "JUnit": "junit"
+            }
+
+            cy.contains('.thumbnail', 'Dropdown Menu(s)').find('#dropdowm-menu-2').select(itemName)
+            cy.wrap(dropdownItem).invoke('prop', 'selected').should('equal', true)
+            cy.wrap(dropdownItem).should('contain', itemName)
+            cy.wrap(dropdownItem).invoke('prop', 'value').should('contain', itemValue[itemName])
+        })
     })
     it('Third dropdown', () => {
         cy.visit(url)
-        cy.contains('.thumbnail', 'Dropdown Menu(s)').find('#dropdowm-menu-3').select('HTML').should('have.value', 'html')
-        cy.contains('.thumbnail', 'Dropdown Menu(s)').find('#dropdowm-menu-3').select('CSS').should('have.value', 'css')
-        cy.contains('.thumbnail', 'Dropdown Menu(s)').find('#dropdowm-menu-3').select('JavaScript').should('have.value', 'javascript')
-        cy.contains('.thumbnail', 'Dropdown Menu(s)').find('#dropdowm-menu-3').select('JQuery').should('have.value', 'jquery')
+        cy.contains('.thumbnail', 'Dropdown Menu(s)').find('#dropdowm-menu-3').find('option').each(dropdownItem => {
+            const itemName = dropdownItem.text()
+            const itemValue = {
+                "HTML": "html",
+                "CSS": "css",
+                "JavaScript": "javascript",
+                "JQuery": "jquery"
+            }
+
+            cy.contains('.thumbnail', 'Dropdown Menu(s)').find('#dropdowm-menu-3').select(itemName)
+            cy.wrap(dropdownItem).invoke('prop', 'selected').should('equal', true)
+            cy.wrap(dropdownItem).should('contain', itemName)
+            cy.wrap(dropdownItem).invoke('prop', 'value').should('contain', itemValue[itemName])
+        })
     })
 })
 
@@ -80,7 +109,6 @@ describe('Radio Button(s)', () => {
 
             cy.wrap(item).click()
             cy.wrap(item).invoke('prop', 'checked').should('equal', true)
-            cy.wait(500)
         })
     })
 })
@@ -110,18 +138,25 @@ describe('Selected & Disabled window', () => {
     })
     it('Fruits dropdown', () => {
         cy.visit(url)
-        cy.contains('.thumbnail', 'Selected & Disabled').find('#fruit-selects').find('option').then(fruit => {
-            cy.wrap(fruit).eq(0).click({ force: true })
-            cy.wrap(fruit).eq(0).invoke('prop', 'value').should('equal', 'apple')
-            cy.wrap(fruit).eq(1).invoke('prop', 'value').should('equal', 'orange')
-            cy.wrap(fruit).eq(1).invoke('prop', 'disabled').should('equal', true)
-            cy.wrap(fruit).eq(2).click({ force: true })
-            cy.wrap(fruit).eq(2).invoke('prop', 'value').should('equal', 'pear')
-            cy.wrap(fruit).eq(3).click({ force: true })
-            cy.wrap(fruit).eq(3).invoke('prop', 'value').should('equal', 'grape')
-            cy.wrap(fruit).eq(3).invoke('prop', 'defaultSelected').should('equal', true)
+        cy.contains('.thumbnail', 'Selected & Disabled').find('#fruit-selects').find('option').each((fruit, index) => {
+            const fruitName = fruit.text()
+            console.log(fruitName)
+            const fruitValue = {
+                "Apple": "apple",
+                "Orange": "orange",
+                "Pear": "pear",
+                "Grape": "grape"
+            }
+            if (index == 1) {
+                cy.wrap(fruit).invoke('prop', 'value').should('contain', fruitValue[fruitName])
+                cy.wrap(fruit).invoke('prop', 'disabled').should('equal', true)
+            } else {
+                cy.contains('.thumbnail', 'Selected & Disabled').find('#fruit-selects').select(fruitName)
+                cy.wrap(fruit).invoke('prop', 'selected').should('equal', true)
+                cy.wrap(fruit).should('contain', fruitName)
+                cy.wrap(fruit).invoke('prop', 'value').should('contain', fruitValue[fruitName])
+
+            }
         })
-
     })
-
 })
