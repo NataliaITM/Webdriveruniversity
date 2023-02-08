@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/NataliaFiryn/Webdriveruniversity/issues"
   },
-  "homepage": "https://github.com/NataliaFiryn/Webdriveruniversity#readme"
+  "homepage": "https://github.com/NataliaFiryn/Webdriveruniversity#readme",
+  "dependencies": {
+    "cypress": "^12.5.1"
+  }
 }
