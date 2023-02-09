@@ -1,8 +1,12 @@
+import { navigateTo } from "../support/page_objects/navigationPage"
+
 describe('Datapicker', () => {
+    beforeEach('open Contact Us page', () => {
+        navigateTo.datepickerPage()
+      })
     it('Current date', () => {
 
         let currentDate = new Date().toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' }).replaceAll('/', '-')
-        cy.visit('https://webdriveruniversity.com/Datepicker/index.html')
         cy.get('input').invoke('prop', 'value').should('contain', currentDate)
     })
 
@@ -12,7 +16,6 @@ describe('Datapicker', () => {
         let futureDay = date.getDate()
         let futureMonth = date.toLocaleDateString('default', { month: 'long' })
 
-        cy.visit('https://webdriveruniversity.com/Datepicker/index.html')
         cy.get('.form-control').click()
         selectDayFromCurret()
         function selectDayFromCurret() {
@@ -25,23 +28,23 @@ describe('Datapicker', () => {
                 }
             })
         }
-        console.log(date)
         let futureDate = date.toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' }).replaceAll('/', '-')
         cy.get('input').invoke('prop', 'value').should('contain', futureDate)
     })
 })
 
 describe('Autocomplete TextField', () => {
+    beforeEach('open Contact Us page', () => {
+        navigateTo.autocomplete_textfieldPage()
+      })
     it('Corectess of autocomplete', () => {
         let inputText = ['I', 'Ba', 'Gra']
-        cy.visit('https://webdriveruniversity.com/Autocomplete-TextField/autocomplete-textfield.html')
         cy.wrap(inputText).each(inputText => {
             cy.get('#myInput').click().clear().type(inputText)
             cy.get('#myInputautocomplete-list').find('strong').should('contain', inputText)
         })
     })
     it('Check second element from autocomplete list', () => {
-        cy.visit('https://webdriveruniversity.com/Autocomplete-TextField/autocomplete-textfield.html')
         cy.get('#myInput').click().type('Gra')
         cy.get('#myInputautocomplete-list').find('strong').eq(1).should('contain', 'Gra')
     })
@@ -56,7 +59,7 @@ describe('Ajax-Loader', () => {
             }
             return true
         })
-        cy.visit('https://webdriveruniversity.com/Ajax-Loader/index.html')
+        navigateTo.ajax_loaderPage()
 
         cy.get('[class="container"]').find('[style="display: none;"]', { timeout: 7000 })
         cy.get('#button1').click()

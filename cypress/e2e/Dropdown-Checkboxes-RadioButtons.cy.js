@@ -1,7 +1,11 @@
-const url = 'https://webdriveruniversity.com/Dropdown-Checkboxes-RadioButtons/index.html'
+import { navigateTo } from "../support/page_objects/navigationPage"
+
 describe('Dropdown Menu(s)', () => {
+    beforeEach('open Contact Us page', () => {
+        navigateTo.dropdown_checkoxes_radiobuttonsPage()
+      })
+
     it('Fist dropdown', () => {
-        cy.visit(url)
         cy.contains('.thumbnail', 'Dropdown Menu(s)').find('#dropdowm-menu-1').find('option').each(dropdownItem => {
             const itemName = dropdownItem.text()
             const itemValue = {
@@ -18,7 +22,6 @@ describe('Dropdown Menu(s)', () => {
         })
     })
     it('Second dropdown', () => {
-        cy.visit(url)
         cy.contains('.thumbnail', 'Dropdown Menu(s)').find('#dropdowm-menu-2').find('option').each(dropdownItem => {
             const itemName = dropdownItem.text()
             const itemValue = {
@@ -35,7 +38,6 @@ describe('Dropdown Menu(s)', () => {
         })
     })
     it('Third dropdown', () => {
-        cy.visit(url)
         cy.contains('.thumbnail', 'Dropdown Menu(s)').find('#dropdowm-menu-3').find('option').each(dropdownItem => {
             const itemName = dropdownItem.text()
             const itemValue = {
@@ -54,8 +56,11 @@ describe('Dropdown Menu(s)', () => {
 })
 
 describe('Checkboxe(s)', () => {
+    beforeEach('open Contact Us page', () => {
+        navigateTo.dropdown_checkoxes_radiobuttonsPage()
+      })
+
     it('Default check of checkboxe(s)', () => {
-        cy.visit(url)
         cy.contains('.thumbnail', 'Checkboxe(s)').find('.section-title').find('[type="checkbox"]').then(checkBoxes => {
             cy.wrap(checkBoxes).eq(0).should('not.be.checked')
             cy.wrap(checkBoxes).eq(1).should('not.be.checked')
@@ -65,7 +70,6 @@ describe('Checkboxe(s)', () => {
     })
 
     it("Chceck and uncheck all checkboxe(s)", () => {
-        cy.visit(url)
         cy.contains('.thumbnail', 'Checkboxe(s)').find('.section-title').find('[type="checkbox"]').then(checkBoxes => {
             cy.wrap(checkBoxes).eq(0).check({ force: true }).should('be.checked')
             cy.wrap(checkBoxes).eq(1).check({ force: true }).should('be.checked')
@@ -79,7 +83,6 @@ describe('Checkboxe(s)', () => {
         })
     })
     it('Check all checkboxe(s) and uncheck 2 and 4', () => {
-        cy.visit(url)
         cy.contains('.thumbnail', 'Checkboxe(s)').find('.section-title').find('[type="checkbox"]').then(checkBoxes => {
             cy.wrap(checkBoxes).eq(0).check({ force: true }).should('be.checked')
             cy.wrap(checkBoxes).eq(1).check({ force: true }).should('be.checked')
@@ -93,9 +96,11 @@ describe('Checkboxe(s)', () => {
 })
 
 describe('Radio Button(s)', () => {
+    beforeEach('open Contact Us page', () => {
+        navigateTo.dropdown_checkoxes_radiobuttonsPage()
+      })
 
     it('Default check of radio buttons', () => {
-        cy.visit(url)
         cy.contains('.thumbnail', 'Radio Button(s)').find('.section-title').find('[type="radio"]').each(item => {
 
             cy.wrap(item).invoke('prop', 'checked').should('equal', false)
@@ -104,7 +109,6 @@ describe('Radio Button(s)', () => {
 
 
     it('Check every radio button', () => {
-        cy.visit(url)
         cy.contains('.thumbnail', 'Radio Button(s)').find('.section-title').find('[type="radio"]').each(item => {
 
             cy.wrap(item).click()
@@ -114,9 +118,11 @@ describe('Radio Button(s)', () => {
 })
 
 describe('Selected & Disabled window', () => {
+    beforeEach('open Contact Us page', () => {
+        navigateTo.dropdown_checkoxes_radiobuttonsPage()
+      })
 
     it('Default check of radio buttons', () => {
-        cy.visit(url)
         cy.contains('.thumbnail', 'Selected & Disabled').find('.section-title').find('[type="radio"]').each((item, index) => {
             if (index < 2) {
                 cy.wrap(item).invoke('prop', 'checked').should('equal', false)
@@ -126,7 +132,6 @@ describe('Selected & Disabled window', () => {
         })
     })
     it('Check every radio button', () => {
-        cy.visit(url)
         cy.contains('.thumbnail', 'Selected & Disabled').find('.section-title').find('[type="radio"]').each((item, index) => {
             if (index == 0 || index == 2) {
                 cy.wrap(item).click()
@@ -137,7 +142,6 @@ describe('Selected & Disabled window', () => {
         })
     })
     it('Fruits dropdown', () => {
-        cy.visit(url)
         cy.contains('.thumbnail', 'Selected & Disabled').find('#fruit-selects').find('option').each((fruit, index) => {
             const fruitName = fruit.text()
             console.log(fruitName)

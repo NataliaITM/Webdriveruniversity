@@ -1,7 +1,10 @@
-describe('Reset of entered data', () => {
-  it('Reset of entered data', () => {
-    cy.visit('https://webdriveruniversity.com/Contact-Us/contactus.html')
+import { navigateTo } from "../support/page_objects/navigationPage"
 
+describe('Reset of entered data', () => {
+
+  it('Reset of entered data', () => {
+    
+    navigateTo.contactUsPage()
     cy.get('form').then(form => {
       cy.wrap(form).find('[name="first_name"]').click().type('Jane')
       cy.wrap(form).find('[name="last_name"]').click().type('Doe')
@@ -20,8 +23,12 @@ describe('Reset of entered data', () => {
 
 describe('Partial filling up of the form', () => {
 
+beforeEach('open Contact Us page', () => {
+  navigateTo.contactUsPage()
+})
+
   it('Empty form', () => {
-    cy.visit('https://webdriveruniversity.com/Contact-Us/contactus.html')
+    
     cy.get('#form_buttons').find('[type="submit"]').click()
     cy.get('body').then(validationMessage => {
       cy.wrap(validationMessage).should('contain', 'Error: all fields are required')
@@ -29,7 +36,6 @@ describe('Partial filling up of the form', () => {
     })
   })
   it('Field FirstName was not filled up', () => {
-    cy.visit('https://webdriveruniversity.com/Contact-Us/contactus.html')
     cy.get('form').then(form => {
       cy.wrap(form).find('[name="last_name"]').click().type('Doe')
       cy.wrap(form).find('[name="email"]').click().type('Jane.Doe@example.com')
@@ -39,7 +45,6 @@ describe('Partial filling up of the form', () => {
     cy.get('body').should('contain', 'Error: all fields are required')
   })
   it('Field LastName was not filled up', () => {
-    cy.visit('https://webdriveruniversity.com/Contact-Us/contactus.html')
     cy.get('form').then(form => {
       cy.wrap(form).find('[name="first_name"]').click().type('Jane')
       cy.wrap(form).find('[name="email"]').click().type('Jane.Doe@example.com')
@@ -49,7 +54,6 @@ describe('Partial filling up of the form', () => {
     cy.get('body').should('contain', 'Error: all fields are required')
   })
   it('Field Email was not filled up', () => {
-    cy.visit('https://webdriveruniversity.com/Contact-Us/contactus.html')
     cy.get('form').then(form => {
       cy.wrap(form).find('[name="first_name"]').click().type('Jane')
       cy.wrap(form).find('[name="last_name"]').click().type('Doe')
@@ -62,7 +66,6 @@ describe('Partial filling up of the form', () => {
     })
   })
   it('Field Comments was not filled up', () => {
-    cy.visit('https://webdriveruniversity.com/Contact-Us/contactus.html')
     cy.get('form').then(form => {
       cy.wrap(form).find('[name="first_name"]').click().type('Jane')
       cy.wrap(form).find('[name="last_name"]').click().type('Doe')
@@ -80,7 +83,7 @@ describe('Email Adress validation', () => {
     const invalidEmail = ['@example.com', 'JaneDoe', 'Jane.Doeexample.com', 'Jane.Doe@', 'Jane..Doeexample.com', 'Jane@Doe@111.222.333.44444']
 
     cy.wrap(invalidEmail).each(invalidEmail => {
-      cy.visit('https://webdriveruniversity.com/Contact-Us/contactus.html')
+      navigateTo.contactUsPage()
       cy.get('form').find('[name="first_name"]').click().type('Jane')
       cy.get('form').find('[name="last_name"]').click().type('Doe')
       cy.get('form').find('[name="email"]').click().type(invalidEmail)
@@ -94,7 +97,7 @@ describe('Email Adress validation', () => {
 
 describe('Happy path', () => {
   it('All fields filled up correct', () => {
-    cy.visit('https://webdriveruniversity.com/Contact-Us/contactus.html')
+    navigateTo.contactUsPage()
 
     cy.get('form').then(form => {
       cy.wrap(form).find('[name="first_name"]').click().type('Jane')
