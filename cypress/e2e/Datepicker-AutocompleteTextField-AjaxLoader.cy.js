@@ -1,40 +1,22 @@
+import { onDatepickerPage } from "../support/page_objects/datepickerPage"
 import { navigateTo } from "../support/page_objects/navigationPage"
+import { uncaughtExceptions } from "../support/page_objects/uncaught_exception"
 
 describe('Datapicker', () => {
-    beforeEach('open Contact Us page', () => {
+    beforeEach('open Datapicker page', () => {
         navigateTo.datepickerPage()
       })
     it('Current date', () => {
-
-        let currentDate = new Date().toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' }).replaceAll('/', '-')
-        cy.get('input').invoke('prop', 'value').should('contain', currentDate)
+        onDatepickerPage.chceckIfDefaultDateIsTodayDate()
     })
 
-    it('Provide date', () => {
-        let date = new Date()
-        date.setDate(date.getDate() + 90)
-        let futureDay = date.getDate()
-        let futureMonth = date.toLocaleDateString('default', { month: 'long' })
-
-        cy.get('.form-control').click()
-        selectDayFromCurret()
-        function selectDayFromCurret() {
-            cy.get('.datepicker-switch').invoke('prop', 'textContent').then(monthYear => {
-                if (!monthYear.includes(futureMonth)) {
-                    cy.get('[class="next"]').eq(0).click()
-                    selectDayFromCurret()
-                } else {
-                    cy.get('tbody tr').find('[class="day"]').contains(futureDay).click()
-                }
-            })
-        }
-        let futureDate = date.toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' }).replaceAll('/', '-')
-        cy.get('input').invoke('prop', 'value').should('contain', futureDate)
-    })
+    it('Provided date', () => {
+        onDatepickerPage.selectDateNumberDaysFromToday(5)
+})
 })
 
 describe('Autocomplete TextField', () => {
-    beforeEach('open Contact Us page', () => {
+    beforeEach('open Autocomplete TextField page', () => {
         navigateTo.autocomplete_textfieldPage()
       })
     it('Corectess of autocomplete', () => {
@@ -52,13 +34,7 @@ describe('Autocomplete TextField', () => {
 
 describe('Ajax-Loader', () => {
     it('Click me', () => {
-        cy.on('uncaught:exception', (err, runnable) => {
-            if (err.message.includes('Unexpected token')) {
-                console.log('Application Error Javascript Token')
-                return false
-            }
-            return true
-        })
+        uncaughtExceptions.SkipUnexpectedTokenErrorMessage()
         navigateTo.ajax_loaderPage()
 
         cy.get('[class="container"]').find('[style="display: none;"]', { timeout: 7000 })
