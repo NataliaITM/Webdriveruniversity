@@ -1,25 +1,44 @@
 export class FormContactUsPage{
+firstNameField = '[name="first_name"]'
+lastNameField = '[name="last_name"]'
+emailField = '[name="email"]'
+commentField = '[name="message"]'
+submitButton = '[type="submit"]'
+resetButton = '[type="reset"]'
+
     fillUpContactUsForm(firstName,lastName, email, comment){
         cy.get('form').then(form => {
-            if (firstName !== null) cy.wrap(form).find('[name="first_name"]').click().type(firstName)
-            if (lastName !== null) cy.wrap(form).find('[name="last_name"]').click().type(lastName)
-            if (email !== null) cy.wrap(form).find('[name="email"]').click().type(email)
-            if (comment !== null) cy.wrap(form).find('[name="message"]').click().type(comment)
+            if (firstName !== null) cy.get(`${onFormContactUs.firstNameField}`).click().type(firstName)
+            if (lastName !== null) cy.get(`${onFormContactUs.lastNameField}`).click().type(lastName)
+            if (email !== null) cy.get(`${onFormContactUs.emailField}`).click().type(email)
+            if (comment !== null) cy.get(`${onFormContactUs.commentField}`).click().type(comment)
           })
     }
     resetEnteredDataAndCheckContactUsForm(){
-        cy.get('#form_buttons').find('[type="reset"]').click()
+        cy.get('#contact_form').find('#form_buttons').then(buttons => {
+            cy.get(`${onFormContactUs.resetButton}`).click()
+        })
         cy.get('form').then(form => {
-          cy.wrap(form).find('[name="first_name"]').should('have.value', '')
-          cy.wrap(form).find('[name="last_name"]').should('have.value', '')
-          cy.wrap(form).find('[name="email"]').should('have.value', '')
-          cy.wrap(form).find('[name="message"]').should('have.value', '')
+            cy.get(`${onFormContactUs.firstNameField}`).should('have.value', '')
+            cy.get(`${onFormContactUs.lastNameField}`).should('have.value', '')
+            cy.get(`${onFormContactUs.emailField}`).should('have.value', '')
+            cy.get(`${onFormContactUs.commentField}`).should('have.value', '')
           })
         
     }
-    submitFormWithoutAllRequiredFiles(){
-        cy.get('form').submit()
+    submitForm(){
+        cy.get('#contact_form').find('#form_buttons').then(buttons => {
+            cy.get(`${onFormContactUs.submitButton}`).click()
+        })
+    }
+    errorMessageAllFieldsRequired(){
         cy.get('body').should('contain', 'Error: all fields are required')
+    }
+    errorMessageInvalidEmail(){
+        cy.get('body').should('contain', 'Error: Invalid email address')
+    }
+    messageFormSubmitedCorrect(){
+        cy.get('body').find('#contact_reply').should('contain', 'Thank You for your Message!')
     }
 }
 export const onFormContactUs = new FormContactUsPage
