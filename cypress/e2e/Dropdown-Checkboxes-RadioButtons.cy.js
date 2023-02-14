@@ -6,7 +6,7 @@ describe('Dropdown Menu(s)', () => {
         navigateTo.dropdown_checkoxes_radiobuttonsPage()
       })
 
-    it('Fist dropdown', () => {
+    it('First dropdown', () => {
         onDropdownCheckboxesRadiobuttonsPage.selectAllOptionsInDropdownMenuDropdownLists('#dropdowm-menu-1')
     })
     
