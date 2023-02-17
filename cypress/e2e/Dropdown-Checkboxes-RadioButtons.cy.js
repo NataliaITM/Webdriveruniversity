@@ -6,16 +6,16 @@ describe('Dropdown Menu(s)', () => {
         navigateTo.dropdown_checkoxes_radiobuttonsPage()
       })
 
-    it('Fist dropdown', () => {
-        onDropdownCheckboxesRadiobuttonsPage.selectAllOptionsInDropdownMenuDropdownLists('#dropdowm-menu-1')
+    it('First dropdown', () => {
+        onDropdownCheckboxesRadiobuttonsPage.selectAllOptionsInFirstDropdownLists()
     })
     
     it('Second dropdown', () => {
-        onDropdownCheckboxesRadiobuttonsPage.selectAllOptionsInDropdownMenuDropdownLists('#dropdowm-menu-2')
+        onDropdownCheckboxesRadiobuttonsPage.selectAllOptionsInSecondDropdownLists()
     })
     
     it('Third dropdown', () => {
-        onDropdownCheckboxesRadiobuttonsPage.selectAllOptionsInDropdownMenuDropdownLists('#dropdowm-menu-3')
+        onDropdownCheckboxesRadiobuttonsPage.selectAllOptionsInThirdDropdownLists()
     })
 })
 
@@ -23,28 +23,16 @@ describe('Checkboxe(s)', () => {
     beforeEach('open Dropdown Menu(s), Checkboxe(s) & Radio Button(s) page', () => {
         navigateTo.dropdown_checkoxes_radiobuttonsPage()
       })
-
-    it('Default check of checkboxe(s)', () => {
-        cy.contains('.thumbnail', 'Checkboxe(s)').find('.section-title').find('[type="checkbox"]').each((checkBox, index) => {
-                if(index === 2){
-                    cy.wrap(checkBox).should('be.checked')
-                }else{
-                    cy.wrap(checkBox).should('not.be.checked')
-                }
-        })
-    })
     
     it("Chceck and uncheck all checkboxe(s)", () => {
+        onDropdownCheckboxesRadiobuttonsPage.defaultCheckOfCheckboxes()
         onDropdownCheckboxesRadiobuttonsPage.checkAllCheckboxes()
         onDropdownCheckboxesRadiobuttonsPage.uncheckAllCheckboxes()
     })
     
-    it('Check all checkboxe(s) and uncheck 2 and 4', () => {
+    it('Check all checkboxe(s) and uncheck selected checkboxes', () => {
         onDropdownCheckboxesRadiobuttonsPage.checkAllCheckboxes()
-        cy.contains('.thumbnail', 'Checkboxe(s)').find('.section-title').find('[type="checkbox"]').then(checkBoxes => {
-            cy.wrap(checkBoxes).eq(1).click({ force: true }).should('not.be.checked')
-            cy.wrap(checkBoxes).eq(3).click({ force: true }).should('not.be.checked')
-        })
+        onDropdownCheckboxesRadiobuttonsPage.uncheckTwoCheckboxes(['1','3'])
     })
 })
 
@@ -53,11 +41,8 @@ describe('Radio Button(s)', () => {
         navigateTo.dropdown_checkoxes_radiobuttonsPage()
       })
 
-    it('Default check of radio buttons', () => {
-        onDropdownCheckboxesRadiobuttonsPage.checkedPropertyCheckForAllRadioButtons(false)
-    })
-
     it('Click and check every radio button', () => {
+        onDropdownCheckboxesRadiobuttonsPage.checkedPropertyCheckForAllRadioButtons(false)
         onDropdownCheckboxesRadiobuttonsPage.checkedPropertyCheckForAllRadioButtons(true)
     })
 })
@@ -68,23 +53,10 @@ describe('Selected & Disabled window', () => {
       })
 
     it('Default check of radio buttons', () => {
-        cy.contains('.thumbnail', 'Selected & Disabled').find('.section-title').find('[type="radio"]').each((item, index) => {
-            if (index < 2) {
-                cy.wrap(item).invoke('prop', 'checked').should('equal', false)
-            } else {
-                cy.wrap(item).invoke('prop', 'checked').should('equal', true)
-            }
-        })
+        onDropdownCheckboxesRadiobuttonsPage.defaultCheckVegetableRadioButtons()
     })
     it('Check every radio button', () => {
-        cy.contains('.thumbnail', 'Selected & Disabled').find('.section-title').find('[type="radio"]').each((item, index) => {
-            if (index == 0 || index == 2) {
-                cy.wrap(item).click()
-                cy.wrap(item).invoke('prop', 'checked').should('equal', true)
-            } else {
-                cy.wrap(item).invoke('prop', 'disabled').should('equal', true)
-            }
-        })
+        onDropdownCheckboxesRadiobuttonsPage.clickOnAllVegetableRadioButtons()
     })
     it('Fruits dropdown', () => {
         onDropdownCheckboxesRadiobuttonsPage.selectAllOptionsInSelectedDisabledDropdownLists()
