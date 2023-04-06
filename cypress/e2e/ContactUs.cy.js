@@ -1,6 +1,8 @@
 import { onFormContactUs } from "../support/page_objects/formContactUsPage"
 import { navigateTo } from "../support/page_objects/navigationPage"
 
+const JsonDataReader = require ("../fixtures/jsonDataReader")
+
 describe('Reset of entered data', () => {
   it('Reset of entered data', () => {
     
@@ -62,10 +64,11 @@ describe('Email Adress validation', () => {
   })
 
 describe('Happy path', () => {
-  it('All fields filled up correct', () => {
+  it.only('All fields filled up correct', () => {
+    const userData = JsonDataReader.getTestData('userData');
     navigateTo.contactUsPage()
-    onFormContactUs.fillUpContactUsForm('Aiden', 'Bishop', 'aiden.bishop@example.com', 'Lorem ipsum dolor sit amet.')
+    onFormContactUs.fillUpContactUsForm(userData.firstName, userData.lastName, userData.email, userData.comment)
     onFormContactUs.submitForm()
     onFormContactUs.messageFormSubmitedCorrect()
+    })
   })
-})
